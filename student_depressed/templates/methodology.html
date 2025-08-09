@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <nav class="bg-gray-800 p-4 shadow-lg">
+        <div class="container mx-auto flex flex-wrap justify-between items-center">
+            <h1 class="text-white text-2xl font-bold rounded-md">Depression Predictor</h1>
+            <div class="flex flex-wrap space-x-2 sm:space-x-6 mt-4 sm:mt-0">
+                <a href="/" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300 ease-in-out">Home</a>
+                <a href="/about" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300 ease-in-out">About</a>
+                <a href="/contact" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300 ease-in-out">Methodology</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto p-4 sm:p-8">
+        <div class="bg-white shadow-xl rounded-xl p-6 sm:p-10 my-8 max-w-4xl mx-auto text-gray-800">
+            <h2 class="text-2xl sm:text-4xl font-extrabold mb-6 text-center">Methodology</h2>
+            <p class="text-base sm:text-lg leading-relaxed mb-4">
+                This application utilizes a Logistic Regression model trained on a dataset of student health and academic factors to predict the likelihood of depression.
+            </p>
+            <h3 class="text-xl sm:text-2xl font-semibold mb-3">Key Steps in Model Development:</h3>
+            <ol class="list-decimal list-inside text-base sm:text-lg leading-relaxed mb-6 space-y-2">
+                <li><strong>Data Collection:</strong> Data was gathered from various sources, including student demographics, academic performance indicators (like CGPA), sleep patterns, dietary habits, and self-reported mental health indicators.</li>
+                <li><strong>Data Preprocessing:</strong>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li>Handling missing values.</li>
+                        <li>Encoding categorical features (e.g., Gender, Degree, Sleep Duration categories, Suicidal thoughts, Family History, Financial Stress) using `LabelEncoder`.</li>
+                        <li>Converting relevant columns to appropriate numeric types.</li>
+                    </ul>
+                </li>
+                <li><strong>Feature Selection:</strong> Relevant features were identified and selected for model training.</li>
+                <li><strong>Model Training:</strong> A Logistic Regression model was trained on the preprocessed dataset.</li>
+                <li><strong>Model Evaluation:</strong> The model's performance was evaluated using metrics such as accuracy and confusion matrix.</li>
+                <li><strong>Model Serialization:</strong> The trained model and necessary encoders (`gender-encoder.pkl`, `degree-encoder.pkl`, `depression-lr-model.pkl`) were saved using Python's `pickle` module for deployment.</li>
+            </ol>
+            <p class="text-base sm:text-lg leading-relaxed">
+                The web application then loads these saved models and encoders to perform real-time predictions based on user input.
+            </p>
+            <p class="text-base sm:text-lg leading-relaxed mt-4">
+                For detailed analysis and exploratory data visualization, refer to the original Jupyter Notebook (`students_depression.ipynb`).
+            </p>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white p-4 text-center mt-auto">
+        <p>&copy; 2024 Student Depression Predictor. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Depression Predictor</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        /* Custom font import if 'Inter' is not available by default */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4 shadow-lg">
+        <div class="container mx-auto flex flex-wrap justify-between items-center">
+            <h1 class="text-white text-2xl font-bold rounded-md">Depression Predictor</h1>
+            <div class="flex flex-wrap space-x-2 sm:space-x-6 mt-4 sm:mt-0">
+                <a href="/" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300 ease-in-out">Home</a>
+                <a href="/about" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300 ease-in-out">About</a>
+                <a href="/contact" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300 ease-in-out">Contact</a>
+                <a href="/methodology" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition duration-300 ease-in-out">Methodology</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto p-4 sm:p-8">
+        <div class="bg-white shadow-xl rounded-xl p-6 sm:p-10 my-8 max-w-4xl mx-auto">
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-800 mb-6 text-center">Predict Student Depression</h2>
+
+            <!-- Prediction Result Display -->
+            {% if prediction %}
+                <div class="mt-6 p-4 sm:p-6 rounded-xl text-center shadow-md
+                    {% if 'Error' in prediction %} bg-red-100 border border-red-300 text-red-800
+                    {% elif 'likely depressed' in prediction %} bg-red-100 border border-red-300 text-red-800
+                    {% else %} bg-green-100 border border-green-300 text-green-800
+                    {% endif %}">
+                    <h3 class="text-xl sm:text-2xl font-bold mb-2">Prediction:</h3>
+                    <p class="text-2xl sm:text-3xl font-extrabold">{{ prediction }}</p>
+                </div>
+            {% endif %}
+
+            <!-- Input Form -->
+            <form action="/" method="POST" class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                <!-- Gender -->
+                <div>
+                    <label for="gender" class="block text-gray-700 text-base sm:text-lg font-semibold mb-2">Gender:</label>
+                    <select id="gender" name="gender" required
+                            class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+                        {% for g in available_genders %}
+                            <option value="{{ g }}" {% if input_values.gender == g %}selected{% endif %}>{{ g }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Age -->
+                <div>
+                    <label for="age" class="block text-gray-700 text-base sm:text-lg font-semibold mb-2">Age:</label>
+                    <input type="number" id="age" name="age" min="18" max="60" required
+                           value="{{ input_values.age }}"
+                           class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+                </div>
+
+                <!-- Academic Pressure -->
+                <div>
+                    <label for="academic_pressure" class="block text-gray-700 text-base sm:text-lg font-semibold mb-2">Academic Pressure (1-5):</label>
+                    <input type="number" id="academic_pressure" name="academic_pressure" min="1" max="5" required
+                           value="{{ input_values.academic_pressure }}"
+                           class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+                </div>
+
+                <!-- Sleep Hours -->
+                <div>
+                    <label for="sleep_hours" class="block text-gray-700 text-base sm:text-lg font-semibold mb-2">Sleep Hours per day:</label>
+                    <input type="number" id="sleep_hours" name="sleep_hours" min="0" max="15" step="0.5" required
+                           value="{{ input_values.sleep_hours }}"
+                           class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+                </div>
+
+                <!-- Degree -->
+                <div>
+                    <label for="degree" class="block text-gray-700 text-base sm:text-lg font-semibold mb-2">Degree:</label>
+                    <select id="degree" name="degree" required
+                            class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+                        {% for d in available_degrees %}
+                            <option value="{{ d }}" {% if input_values.degree == d %}selected{% endif %}>{{ d }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="md:col-span-2 flex justify-center mt-4">
+                    <button type="submit"
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 sm:py-3 sm:px-8 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-300">
+                        Predict
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-4 text-center mt-auto">
+        <p>&copy; 2024 Student Depression Predictor. All rights reserved.</p>
+    </footer>
+</body>
+</html>
