@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology - Stroke Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --light-bg: #f8f9fa;
+            --dark-text: #343a40;
+            --light-text: #666;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px; /* Adjusted padding for sections */
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #343a40; /* Darker background for navbar */
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-item {
+            margin-left: 30px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color); /* Highlight active/hovered link */
+        }
+
+
+        section {
+            background-color: #fff;
+            padding: 40px 30px;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            font-size: 2rem;
+            position: relative;
+        }
+
+        section h2::after {
+            content: '';
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50px;
+        }
+
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .methodology-step {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .methodology-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .methodology-step i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .methodology-step h3 {
+            font-size: 1.4rem;
+            color: var(--dark-text);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .methodology-step p {
+            font-size: 0.95rem;
+            color: var(--light-text);
+        }
+
+        .algorithms-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .algorithms-section h3 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .algorithm-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .algorithm-list li {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            color: var(--light-text);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .navbar-nav {
+                margin-top: 15px;
+                flex-direction: column;
+            }
+
+            .nav-item {
+                margin: 10px 0;
+            }
+
+            .methodology-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">StrokeCare AI</a>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/predict" class="nav-link">Predict Now</a></li>
+                <li class="nav-item"><a href="/methodology" class="nav-link active">Methodology</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link">About Us</a></li>
+                <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Stroke Prediction Methodology 🧠</h1>
+        </div>
+    </header>
+
+    <section id="methodology">
+        <div class="container">
+            <h2>Our Approach to Prediction</h2>
+            <p style="text-align: center; margin-bottom: 40px; font-size: 1.1rem; color: var(--light-text);">
+                A detailed breakdown of the steps taken to build and validate our stroke prediction model.
+            </p>
+
+            <div class="methodology-grid">
+                <div class="methodology-step">
+                    <i class="fas fa-database"></i>
+                    <h3>Data Collection</h3>
+                    <p>Gathering comprehensive datasets containing relevant health indicators and demographic information pertinent to stroke risk.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <i class="fas fa-broom"></i>
+                    <h3>Data Cleaning</h3>
+                    <p>Handling missing values, removing duplicates, and correcting inconsistencies to ensure data quality and integrity.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>Data Analysis</h3>
+                    <p>Exploring statistical properties, distributions, and correlations within the data to uncover insights and patterns.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>Data Visualization</h3>
+                    <p>Creating visual representations (e.g., histograms, scatter plots) to better understand data relationships and anomalies.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Data Preprocessing</h3>
+                    <p>Transforming raw data into a suitable format for machine learning, including encoding categorical variables and scaling numerical features.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <i class="fas fa-tags"></i>
+                    <h3>Feature Engineering & Labeling</h3>
+                    <p>Creating new features from existing ones and defining the target variable (stroke occurrence) for supervised learning.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <i class="fas fa-cut"></i>
+                    <h3>Data Splitting (Train/Test)</h3>
+                    <p>Dividing the processed data into training (75%) and testing (25%) sets to evaluate model performance on unseen data.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <i class="fas fa-brain"></i>
+                    <h3>Model Building</h3>
+                    <p>Developing and training machine learning models using the prepared training data.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <i class="fas fa-vial"></i>
+                    <h3>Model Testing</h3>
+                    <p>Evaluating the trained models on the unseen test data to assess their predictive accuracy and generalization ability.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <i class="fas fa-clipboard-check"></i>
+                    <h3>Model Evaluation</h3>
+                    <p>Analyzing key performance metrics (e.g., accuracy, precision, recall, F1-score) to determine the effectiveness of each model.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <i class="fas fa-save"></i>
+                    <h3>Model Saving</h3>
+                    <p>Persisting the best-performing model for future use in real-time predictions.</p>
+                </div>
+            </div>
+
+            <div class="algorithms-section">
+                <h3>Algorithms Utilized</h3>
+                <ul class="algorithm-list">
+                    <li>Logistic Regression</li>
+                    <li>Decision Tree Algorithm</li>
+                    <li>Random Forest</li>
+                    <li>Support Vector Classifier (SVC)</li>
+                </ul>
+                <p style="margin-top: 15px; font-size: 0.95rem; color: var(--light-text);">
+                    These algorithms were chosen for their effectiveness in classification tasks and interpretability.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 StrokeCare AI. All rights reserved.</p>
+            <p>Disclaimer: This prediction is for informational purposes only and does not constitute medical advice. Always consult a healthcare professional for diagnosis and treatment.</p>
+        </div>
+    </footer>
+</body>
+</html>

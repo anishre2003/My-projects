@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stroke Prediction App - Home</title>
+    <style>
+        /* General Body & Reset Styles */
+        body, h1, h2, h3, p, ul, li, a, section, div, form, input, select, button, footer {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f7f6;
+            color: #333;
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #2c3e50; /* Dark blue-grey */
+            color: #fff;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: sticky; /* Makes header stick to the top */
+            top: 0;
+            z-index: 1000; /* Ensures header is above other content */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation Bar Styles */
+        nav {
+            background-color: #34495e; /* Slightly darker blue-grey */
+            width: 100%;
+            padding: 0.8rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0 auto;
+            max-width: 1200px; /* Limit nav width */
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            padding-bottom: 5px; /* For the underline effect */
+            border-bottom: 2px solid transparent; /* Initial transparent border */
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active { /* 'active' class can be added by JS for current section */
+            color: #5d9cec; /* Light blue on hover */
+            border-bottom: 2px solid #5d9cec; /* Underline effect */
+        }
+
+        /* Main Content Styling */
+        main {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            background-color: #fff;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Default center alignment for section content */
+        }
+
+        section h2 {
+            color: #34495e;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #5d9cec;
+            padding-bottom: 10px;
+            display: inline-block; /* Makes border-bottom fit content */
+        }
+
+        section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: left; /* Default text alignment for paragraphs */
+        }
+
+        /* Home Section Specifics */
+        #home p {
+            max-width: 700px;
+            margin: 0 auto 20px auto;
+            text-align: center;
+        }
+
+        /* About Us Section Specifics */
+        #about p {
+            max-width: 800px;
+            margin: 0 auto 15px auto;
+        }
+
+        /* How It Works Section Specifics */
+        #how-it-works .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #eaf6fd; /* Light blue background for steps */
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            text-align: left;
+        }
+
+        #how-it-works .step:nth-child(even) { /* Alternate layout for even steps */
+            flex-direction: row-reverse;
+            background-color: #f7f9fb; /* Slightly different background */
+        }
+
+        #how-it-works .step .icon {
+            font-size: 3rem;
+            color: #5d9cec;
+            margin: 0 20px;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+
+        #how-it-works .step .text-content h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        #how-it-works .step .text-content p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+
+        /* Predict Now Form Styling */
+        #predict-now {
+            text-align: left; /* Align form content to left */
+        }
+
+        #predict-now form {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two columns for form fields */
+            gap: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        #predict-now .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #predict-now .form-group label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        #predict-now .form-group input,
+        #predict-now .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: #f9f9f9;
+        }
+
+        #predict-now .form-group input:focus,
+        #predict-now .form-group select:focus {
+            border-color: #5d9cec;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(93, 156, 236, 0.2);
+        }
+
+        #predict-now button {
+            grid-column: 1 / -1; /* Make button span across both columns */
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #5d9cec; /* Light blue */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        #predict-now button:hover {
+            background-color: #4a8ddc; /* Darker blue on hover */
+        }
+
+        #prediction-result-display {
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            display: none; /* Hidden by default, shown by JS */
+            background-color: #d4edda;
+            color: #28a745;
+        }
+
+        #prediction-result-display.result-stroke {
+            background-color: #f8d7da;
+            color: #dc3545;
+        }
+
+        /* Contact Section Specifics */
+        #contact .contact-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        #contact .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        #contact .contact-info div strong {
+            color: #333;
+        }
+
+        #contact .contact-info .icon {
+            color: #5d9cec;
+            font-size: 1.5rem;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: #34495e;
+            color: #ecf0f1;
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap; /* Allow nav items to wrap */
+                padding: 0 10px;
+            }
+
+            nav ul li {
+                margin: 8px 10px;
+            }
+
+            nav ul li a {
+                font-size: 1rem;
+            }
+
+            main {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+
+            section {
+                padding: 30px 20px;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+
+            section p {
+                font-size: 1rem;
+            }
+
+            #how-it-works .step {
+                flex-direction: column; /* Stack elements vertically */
+                text-align: center;
+            }
+            #how-it-works .step:nth-child(even) {
+                flex-direction: column; /* Ensure consistency */
+            }
+
+            #how-it-works .step .icon {
+                margin-bottom: 15px;
+            }
+
+            #predict-now form {
+                grid-template-columns: 1fr; /* Single column for form fields */
+            }
+
+            #predict-now button {
+                grid-column: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 1rem 0;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            nav ul li {
+                margin: 5px 8px;
+            }
+
+            nav ul li a {
+                font-size: 0.9rem;
+            }
+
+            main {
+                margin: 15px auto;
+                padding: 0 10px;
+            }
+
+            section {
+                padding: 20px 15px;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            #predict-now .form-group label {
+                font-size: 0.9rem;
+            }
+
+            #predict-now .form-group input,
+            #predict-now .form-group select {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            #predict-now button {
+                font-size: 1.1rem;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if prediction %}
+<script>
+    Swal.fire({
+  title: "<strong>Prediction result:</strong>",
+  icon: "info",
+  html: `
+    {{prediction}}
+  `,
+  showCloseButton: true,
+  showCancelButton: true,
+  focusConfirm: false,
+  confirmButtonText: `
+    <i class="fa fa-thumbs-up"></i> Great!
+  `,
+  confirmButtonAriaLabel: "Thumbs up, great!",
+  cancelButtonText: `
+    <i class="fa fa-thumbs-down"></i>
+  `,
+  cancelButtonAriaLabel: "Thumbs down"
+});
+{% endif %}
+    </script>
+    <header>
+        <h1>Stroke Prediction App</h1>
+        <p>Harnessing ML for Health Insights</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#predict-now">Predict Now</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="/methodology">Methodology</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="home">
+            <h2>Welcome to Stroke Predict</h2>
+            <p>Your intelligent companion for assessing stroke risk. Our application leverages advanced machine learning models to provide personalized risk predictions based on key health indicators. Empower yourself with knowledge and take proactive steps towards a healthier life.</p>
+            <p><em>Early prediction can lead to early prevention.</em></p>
+            <button onclick="location.href='#predict-now'">Get Started - Predict Now!</button>
+        </section>
+
+        <section id="about">
+            <h2>About Us</h2>
+            <p>At Stroke Predict, we are a team of dedicated data scientists, healthcare professionals, and web developers committed to making health insights accessible. Our mission is to utilize cutting-edge machine learning technology to assist individuals and healthcare providers in understanding stroke risk factors more effectively.</p>
+            <p>We believe that informed decisions lead to better health outcomes. Our model is trained on a comprehensive dataset of health metrics to ensure accuracy and reliability in its predictions.</p>
+        </section>
+
+        <section id="how-it-works">
+            <h2>How It Works</h2>
+            <div class="step">
+                <span class="icon">📊</span>
+                <div class="text-content">
+                    <h3>1. Input Your Data</h3>
+                    <p>Provide key health indicators such as age, gender, BMI, glucose level, and more into our secure prediction form.</p>
+                </div>
+            </div>
+            <div class="step">
+                <span class="icon">🧠</span>
+                <div class="text-content">
+                    <h3>2. ML Model Processes</h3>
+                    <p>Our trained machine learning model analyzes your inputs against patterns learned from thousands of health records.</p>
+                </div>
+            </div>
+            <div class="step">
+                <span class="icon">📈</span>
+                <div class="text-content">
+                    <h3>3. Get Your Prediction</h3>
+                    <p>Receive an instant prediction of your stroke risk, along with a probability score. This is for informational purposes only and not a substitute for professional medical advice.</p>
+                </div>
+            </div>
+            <p>Our system is designed for ease of use and provides a quick, data-driven assessment.</p>
+        </section>
+
+        <section id="predict-now">
+            <h2>Predict Your Stroke Risk</h2>
+            <form id="strokePredictForm" action="/predict" method="POST">
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" min="0" max="120" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="hypertension">Hypertension (High Blood Pressure):</label>
+                    <select id="hypertension" name="hypertension" required>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="heart_disease">Heart Disease:</label>
+                    <select id="heart_disease" name="heart_disease" required>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ever_married">Ever Married:</label>
+                    <select id="ever_married" name="ever_married" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="work_type">Work Type:</label>
+                    <select id="work_type" name="work_type" required>
+                        <option value="Private">Private</option>
+                        <option value="Self-employed">Self-employed</option>
+                        <option value="Govt_job">Govt_job</option>
+                        <option value="children">Children</option>
+                        <option value="Never_worked">Never_worked</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Residence_type">Residence Type:</label>
+                    <select id="Residence_type" name="Residence_type" required>
+                        <option value="Urban">Urban</option>
+                        <option value="Rural">Rural</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="avg_glucose_level">Average Glucose Level:</label>
+                    <input type="number" id="avg_glucose_level" name="avg_glucose_level" step="0.01" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bmi">BMI:</label>
+                    <input type="number" id="bmi" name="bmi" step="0.01" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="smoking_status">Smoking Status:</label>
+                    <select id="smoking_status" name="smoking_status" required>
+                        <option value="formerly smoked">Formerly Smoked</option>
+                        <option value="never smoked">Never Smoked</option>
+                        <option value="smokes">Smokes</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+
+                <button type="submit">Predict Stroke Risk</button>
+            </form>
+            <div id="prediction-result-display">
+                <p id="result-text">Please enter data and click "Predict" to see the result.</p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>Have questions or feedback? We'd love to hear from you. Reach out to us via the following channels:</p>
+            <div class="contact-info">
+                <div><span class="icon">✉️</span> <strong>Email:</strong> support@strokepredict.com</div>
+                <div><span class="icon">📞</span> <strong>Phone:</strong> +91 98765 43210</div>
+                <div><span class="icon">📍</span> <strong>Address:</strong> 123 Health Tech Ave, Bengaluru, Karnataka, India</div>
+            </div>
+            <p style="margin-top: 20px;">Follow us on social media for updates!</p>
+            </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Stroke Prediction App. All rights reserved.</p>
+        <p>Disclaimer: This application provides a prediction based on machine learning. It is not a substitute for professional medical advice, diagnosis, or treatment.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Optional: Add/remove active class for visual feedback on current section
+                document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+
+       
